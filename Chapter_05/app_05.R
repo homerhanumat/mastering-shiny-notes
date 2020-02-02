@@ -40,8 +40,8 @@ ui <- dashboardPage(
     ),
     br(),
     selectInput("code", "Product",
-                choices = setNames(products$prod_code, products$title),
-                width = "100%"
+      choices = setNames(products$prod_code, products$title),
+      width = "100%"
     )
   ),
   dashboardBody(
@@ -51,8 +51,8 @@ ui <- dashboardPage(
         fluidRow(
           box(
             width = 4,
-            title = "Diagnosis", 
-            status = "primary", 
+            title = "Diagnosis",
+            status = "primary",
             solidHeader = TRUE,
             background = table_bg_color,
             tableOutput("diag")
@@ -73,13 +73,13 @@ ui <- dashboardPage(
             background = table_bg_color,
             tableOutput("location")
           )
-        ), #<<row
+        ), # <<row
         br(),
         fluidRow(
           column(2, actionButton("story", "Tell me a story")),
           column(10, textOutput("narrative"))
-        ) #<<row
-      ), #<<tabItem,
+        ) # <<row
+      ), # <<tabItem,
       tabItem(
         tabName = "graph",
         fluidRow(
@@ -95,33 +95,33 @@ ui <- dashboardPage(
             style = "margin-left: 20px;",
             tagList(
               selectInput("y", "Y axis", c("rate", "count"))
-              )
+            )
           )
-        )#<<row
-      )#<<tabItem
-    )#<<tabItems
-    )#<<body
-)#<<page
+        ) # <<row
+      ) # <<tabItem
+    ) # <<tabItems
+  ) # <<body
+) # <<page
 
 ## server ----
 
 server <- function(input, output, session) {
   selected <- reactive(injuries %>% filter(prod_code == input$code))
-  
-  #<< tables
+
+  # << tables
   output$diag <- renderTable(count_top(selected(), diag), width = "100%")
   output$body_part <- renderTable(count_top(selected(), body_part), width = "100%")
   output$location <- renderTable(count_top(selected(), location), width = "100%")
-  #>>
-  
+  # >>
+
   summary <- reactive({
     selected() %>%
       count(age, sex, wt = weight) %>%
       left_join(population, by = c("age", "sex")) %>%
       mutate(rate = n / population * 1e4)
   })
-  
-  #<< plot
+
+  # << plot
   output$age_sex <- renderPlot({
     if (input$y == "count") {
       summary() %>%
@@ -137,14 +137,16 @@ server <- function(input, output, session) {
         theme_grey(15)
     }
   })
-  #>>
-  
-  #<< narrative
+  # >>
+
+  # << narrative
   output$narrative <- renderText({
     input$story
-    selected() %>% pull(narrative) %>% sample(1)
+    selected() %>%
+      pull(narrative) %>%
+      sample(1)
   })
-  #<<
+  # <<
 }
 
 ## make app ----
