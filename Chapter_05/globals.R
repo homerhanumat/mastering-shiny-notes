@@ -18,8 +18,8 @@ units_info <- HTML(glue::glue(
   "The default choice is for the y-axis of the graph to show an estimate of the 
   <em>rate per 10,000</em>,
   i.e.:  the number of accidents out of every ten thousand people of the 
-  given age in the population.  The choice 'rate' switches to an estimate of the
-  total number itself.  (The 'rate' choice can be misleading, as the sizes 
+  given age in the population.  The choice 'count' switches to an estimate of the
+  total number itself.  (The 'count' choice can be misleading, as the sizes 
   of the age-groups vary.)"
 ))
 

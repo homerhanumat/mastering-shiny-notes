@@ -127,7 +127,7 @@ ui <- dashboardPage(
               actionButton("story", "Tell me a story"),
               data.step = 5,
               data.intro = glue::glue(
-                "This is the (morbidly) fun part!  Every time you clikc this button
+                "This is the (morbidly) fun part!  Every time you click this button
                      the app will pick a random accident associated with the
                      product you have selected, and will display the narrative
                      of how the accident occurred."
