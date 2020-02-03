@@ -145,7 +145,7 @@ ui <- dashboardPage(
             title = "Occurrences by Age and Gender",
             status = "primary",
             solidHeader = TRUE,
-            plotOutput("age_sex")
+            plotlyOutput("age_sex")
           ),
           br(),
           div(

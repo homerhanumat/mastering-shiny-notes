@@ -12,6 +12,7 @@ library(shinyjs)
 library(rintrojs)
 library(tippy)
 library(glue)
+library(plotly)
 
 ## globals ----
 

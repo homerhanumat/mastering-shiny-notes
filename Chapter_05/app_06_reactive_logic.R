@@ -24,20 +24,31 @@ summary <- reactive({
 })
 
 # << plot
-output$age_sex <- renderPlot({
+output$age_sex <- renderPlotly({
   if (input$y == "count") {
+    p <-
     summary() %>%
-      ggplot(aes(age, n, colour = sex)) +
+      mutate(tip = glue::glue(
+        "age: {age}<br>accidents: {round(n, 0)}<br>sex: {sex}"
+      )) %>% 
+      ggplot(aes(age, n, colour = sex, text = tip, group = sex)) +
       geom_line() +
-      labs(y = "Estimated number of injuries") +
+      labs(y = "Estimated number of accidents") +
       theme_grey(15)
   } else {
+    p <-
     summary() %>%
-      ggplot(aes(age, rate, colour = sex)) +
+      mutate(tip = glue::glue(
+        "age: {age}<br>rate: {round(rate, 2)}<br>sex: {sex}"
+      )) %>% 
+      ggplot(aes(age, rate, colour = sex, text = tip, group = sex)) +
       geom_line(na.rm = TRUE) +
-      labs(y = "Injuries per 10,000 people") +
+      #geom_point(na.rm = TRUE) +
+      labs(y = "Accidents per 10,000 people") +
       theme_grey(15)
   }
+  ggplotly(p, tooltip = "text") %>% 
+    plotly::config(displayModeBar = FALSE)
 })
 # >>
 
