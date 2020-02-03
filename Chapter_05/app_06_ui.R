@@ -1,59 +1,3 @@
-##
-## Stage 6
-##
-## Add popup tutorial!
-##
-
-library(tidyverse)
-library(vroom)
-library(shinydashboard)
-library(shinyjs)
-library(rintrojs)
-library(tippy)
-library(glue)
-
-## globals ----
-
-table_bg_color <- "light-blue"
-dashboard_skin <- "yellow"
-
-## for the tutorial
-app_intro <- HTML(glue::glue("
-This app explores data from the 
-<a href='https://www.cpsc.gov/Research--Statistics/NEISS-Injury-Data' 
-target='_blank'>National 
-Electronic Injury Surveillance System</a> (NEISS). 
-NEISS records all accidents seen 
-in a representative sample of hospitals in the United States.
-(The data we have here is a subset of the overall data, so the
-app won't take too long to load.)
-"))
-
-## for the graph y-axis tooltip
-units_info <- HTML(glue::glue(
-  "The default choice is for the y-axis of the graph to show an estimate of the 
-  <em>rate per 10,000</em>,
-  i.e.:  the number of accidents out of every ten thousand people of the 
-  given age in the population.  The choice 'rate' switches to an estimate of the
-  total number itself.  (The 'rate' choice can be misleading, as the sizes 
-  of the age-groups vary.)"
-))
-
-if (!exists("injuries")) {
-  injuries <- vroom::vroom("neiss/injuries.tsv.gz")
-  products <- vroom::vroom("neiss/products.tsv")
-  population <- vroom::vroom("neiss/population.tsv")
-}
-
-count_top <- function(df, var, n = 5) {
-  df %>%
-    mutate({{ var }} := fct_lump(fct_infreq({{ var }}), n = n)) %>%
-    group_by({{ var }}) %>%
-    summarise(n = as.integer(sum(weight)))
-}
-
-## ui ----
-
 ui <- dashboardPage(
   skin = dashboard_skin,
   dashboardHeader(title = "Injuries"),
@@ -91,8 +35,8 @@ ui <- dashboardPage(
       br(),
       introBox(
         selectInput("code", "Product",
-          choices = setNames(products$prod_code, products$title),
-          width = "100%"
+                    choices = setNames(products$prod_code, products$title),
+                    width = "100%"
         ),
         data.step = 2,
         data.intro = glue::glue(
@@ -208,10 +152,10 @@ ui <- dashboardPage(
             style = "margin-left: 20px;",
             tagList(
               selectInput("y",
-                tippy("Chhose Y-Axis Units (hover here for info)",
-                  tooltip = units_info, width = "100px"
-                ),
-                choices = c("rate", "count")
+                          tippy("Chhose Y-Axis Units (hover here for info)",
+                                tooltip = units_info, width = "100px"
+                          ),
+                          choices = c("rate", "count")
               ),
               tippy_this("y", "Tooltip", placement = "right")
             ) # end taglist
@@ -221,76 +165,3 @@ ui <- dashboardPage(
     ) # <<tabItems
   ) # <<body
 ) # <<page
-
-## server ----
-
-server <- function(input, output, session) {
-  observeEvent(input$tabs, {
-    if (input$tabs == "tables") {
-      show("help")
-    } else {
-      hide("help")
-    }
-  })
-
-  selected <- reactive(injuries %>% filter(prod_code == input$code))
-
-  # << tables
-  output$diag <- renderTable(count_top(selected(), diag), width = "100%")
-  output$body_part <- renderTable(count_top(selected(), body_part), width = "100%")
-  output$location <- renderTable(count_top(selected(), location), width = "100%")
-  # >>
-
-  summary <- reactive({
-    selected() %>%
-      count(age, sex, wt = weight) %>%
-      left_join(population, by = c("age", "sex")) %>%
-      mutate(rate = n / population * 1e4)
-  })
-
-  # << plot
-  output$age_sex <- renderPlot({
-    if (input$y == "count") {
-      summary() %>%
-        ggplot(aes(age, n, colour = sex)) +
-        geom_line() +
-        labs(y = "Estimated number of injuries") +
-        theme_grey(15)
-    } else {
-      summary() %>%
-        ggplot(aes(age, rate, colour = sex)) +
-        geom_line(na.rm = TRUE) +
-        labs(y = "Injuries per 10,000 people") +
-        theme_grey(15)
-    }
-  })
-  # >>
-
-  # << narrative
-  output$narrative <- renderText({
-    input$story
-    selected() %>%
-      pull(narrative) %>%
-      sample(1)
-  })
-  # <<
-
-  # start introjs when button is pressed with custom options and events
-  observeEvent(
-    input$help,
-    introjs(session,
-      options = list(
-        "nextLabel" = "Next",
-        "prevLabel" = "Previous",
-        "skipLabel" = "Quit"
-      ),
-      events = list(
-        "oncomplete" = I('alert("The tutoral is complete.  Enjoy the app!")')
-      )
-    )
-  )
-}
-
-## make app ----
-
-shinyApp(ui, server)
