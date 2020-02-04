@@ -1,6 +1,16 @@
 ui <- dashboardPage(
   skin = dashboard_skin,
-  dashboardHeader(title = "Injuries"),
+  dashboardHeader(
+    title = "Accidents",
+      tags$li(
+        class = "dropdown", icon = icon("question circle"),
+        introBox(
+          actionLink("help", HTML("Tutorial")),
+          data.step = 1,
+          data.intro = app_intro,
+          data.position = "right"
+        ))
+    ),
   dashboardSidebar(
     useShinyjs(),
     introjsUI(),
@@ -44,13 +54,14 @@ ui <- dashboardPage(
         the person's accident.  Scroll down the list of choices and select
         your favorite one!"
         )
-      ),
-      introBox(
-        actionButton("help", HTML("Press for a tutorial!")),
-        data.step = 1,
-        data.intro = app_intro,
-        data.position = "right"
       )
+      # ,
+      # introBox(
+      #   actionButton("help", HTML("Press for a tutorial!")),
+      #   data.step = 1,
+      #   data.intro = app_intro,
+      #   data.position = "right"
+      # )
     )
   ),
   dashboardBody(
@@ -142,24 +153,32 @@ ui <- dashboardPage(
         fluidRow(
           box(
             width = 12,
-            title = "Occurrences by Age and Gender",
+            title = "Accidents by Age and Gender",
             status = "primary",
             solidHeader = TRUE,
             plotlyOutput("age_sex")
           ),
           br(),
-          div(
-            style = "margin-left: 20px;",
-            tagList(
-              selectInput("y",
-                          tippy("Chhose Y-Axis Units (hover here for info)",
-                                tooltip = units_info, width = "100px"
-                          ),
-                          choices = c("rate", "count")
-              ),
-              tippy_this("y", "Tooltip", placement = "right")
-            ) # end taglist
-          ) # end div
+          # div(
+          #   style = "margin-left: 20px;",
+          #   tagList(
+          #     selectInput("y",
+          #                 tippy("Chhose Y-Axis Units (hover here for info)",
+          #                       tooltip = units_info, width = "100px"
+          #                 ),
+          #                 choices = c("rate", "count")
+          #     ),
+          #     tippy_this("y", "Tooltip", placement = "right")
+          #     
+          #   ) # end taglist
+          # ) # end div
+          introBox(
+            selectInput("y",
+                        "Choose Y-Axis Units",
+                        choices = c("rate", "count")
+            ),
+            data.hint = units_info
+          )
         ) # <<row
       ) # <<tabItem
     ) # <<tabItems

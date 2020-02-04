@@ -1,3 +1,7 @@
+## Initiate hint
+hintjs(session, options = list("hintButtonLabel"="Hope this hint was helpful"),
+       events = list("onhintclose"=I('alert("Wasn\'t that hint helpful")')))
+
 ## ensure toutorial button is present only on the 
 ## home tab
 observeEvent(input$tabs, {
