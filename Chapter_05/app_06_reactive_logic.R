@@ -1,8 +1,10 @@
 ## Initiate hint
-hintjs(session, options = list("hintButtonLabel"="Hope this hint was helpful"),
-       events = list("onhintclose"=I('alert("Wasn\'t that hint helpful")')))
+hintjs(session,
+  options = list("hintButtonLabel" = "Hope this hint was helpful"),
+  events = list("onhintclose" = I('alert("Wasn\'t that hint helpful")'))
+)
 
-## ensure toutorial button is present only on the 
+## ensure toutorial button is present only on the
 ## home tab
 observeEvent(input$tabs, {
   if (input$tabs == "tables") {
@@ -31,27 +33,27 @@ summary <- reactive({
 output$age_sex <- renderPlotly({
   if (input$y == "count") {
     p <-
-    summary() %>%
+      summary() %>%
       mutate(tip = glue::glue(
         "age: {age}<br>accidents: {round(n, 0)}<br>sex: {sex}"
-      )) %>% 
+      )) %>%
       ggplot(aes(age, n, colour = sex, text = tip, group = sex)) +
       geom_line() +
       labs(y = "Estimated number of accidents") +
       theme_grey(15)
   } else {
     p <-
-    summary() %>%
+      summary() %>%
       mutate(tip = glue::glue(
         "age: {age}<br>rate: {round(rate, 2)}<br>sex: {sex}"
-      )) %>% 
+      )) %>%
       ggplot(aes(age, rate, colour = sex, text = tip, group = sex)) +
       geom_line(na.rm = TRUE) +
-      #geom_point(na.rm = TRUE) +
+      # geom_point(na.rm = TRUE) +
       labs(y = "Accidents per 10,000 people") +
       theme_grey(15)
   }
-  ggplotly(p, tooltip = "text") %>% 
+  ggplotly(p, tooltip = "text") %>%
     plotly::config(displayModeBar = FALSE)
 })
 # >>
@@ -69,13 +71,13 @@ output$narrative <- renderText({
 observeEvent(
   input$help,
   introjs(session,
-          options = list(
-            "nextLabel" = "Next",
-            "prevLabel" = "Previous",
-            "skipLabel" = "Quit"
-          ),
-          events = list(
-            "oncomplete" = I('alert("The tutoral is complete.  Enjoy the app!")')
-          )
+    options = list(
+      "nextLabel" = "Next",
+      "prevLabel" = "Previous",
+      "skipLabel" = "Quit"
+    ),
+    events = list(
+      "oncomplete" = I('alert("The tutoral is complete.  Enjoy the app!")')
+    )
   )
 )
