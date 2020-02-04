@@ -14,7 +14,7 @@ ui <- dashboardPage(
         tagList(
           introBox(
             menuItem(text = "Tables/Stories", tabName = "tables", icon = icon("table")),
-            data.step = 7,
+            data.step = 8,
             data.intro = glue::glue(
               "The app starts on the tab that shows the tables and the random narrative.
               You can always return to the tables tab by clicking on this menu item.
@@ -24,7 +24,7 @@ ui <- dashboardPage(
           div(style = "height: 20px;"),
           introBox(
             menuItem(text = "Graph", tabName = "graph", icon = icon("chart-area")),
-            data.step = 6,
+            data.step = 7,
             data.intro = glue::glue(
               "Click on this menu itme to be taken to a graph
               of the number of accidents associated with the
@@ -79,7 +79,7 @@ ui <- dashboardPage(
               background = table_bg_color,
               tableOutput("diag")
             ),
-            data.step = 2,
+            data.step = 3,
             data.intro = glue::glue(
               "Here we tally up the accidents by the medical diagnosis given to the
               injury.  The 'n' column is an estimate of how
@@ -96,7 +96,7 @@ ui <- dashboardPage(
               background = table_bg_color,
               tableOutput("body_part")
             ),
-            data.step = 3,
+            data.step = 4,
             data.intro = glue::glue(
               "Here we tally up the accidents by what part of the
               body was injured.  The 'n' column is an estimate of how
@@ -112,7 +112,7 @@ ui <- dashboardPage(
               background = table_bg_color,
               tableOutput("location")
             ),
-            data.step = 4,
+            data.step = 5,
             data.intro = glue::glue(
               "Here we tally up the accidents by the sort of place
               where the accident occurred.  The 'n' column is an estimate of how
@@ -127,7 +127,7 @@ ui <- dashboardPage(
             2,
             introBox(
               actionButton("story", "Tell me a story"),
-              data.step = 5,
+              data.step = 6,
               data.intro = glue::glue(
                 "This is the (morbidly) fun part!  Every time you click this button
                      the app will pick a random accident associated with the
@@ -154,7 +154,7 @@ ui <- dashboardPage(
             style = "margin-left: 20px;",
             tagList(
               selectInput("y",
-                          tippy("Chhose Y-Axis Units (hover here for info)",
+                          tippy("Choose Y-Axis Units (hover here for info)",
                                 tooltip = units_info, width = "100px"
                           ),
                           choices = c("rate", "count")
