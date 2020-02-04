@@ -1,5 +1,5 @@
-## ensure toutorial button is present only on the
-## home tab
+# show/hide tutorail ----
+## ensure totorial button is present only on the home tab
 observeEvent(input$tabs, {
   if (input$tabs == "tables") {
     show("help")
@@ -8,14 +8,16 @@ observeEvent(input$tabs, {
   }
 })
 
+# selected reactive ----
 selected <- reactive(injuries %>% filter(prod_code == input$code))
 
-# << tables
+# table outputs ----
 output$diag <- renderTable(count_top(selected(), diag), width = "100%")
 output$body_part <- renderTable(count_top(selected(), body_part), width = "100%")
 output$location <- renderTable(count_top(selected(), location), width = "100%")
-# >>
+# >> table
 
+# summary reactive ----
 summary <- reactive({
   selected() %>%
     count(age, sex, wt = weight) %>%
@@ -23,7 +25,7 @@ summary <- reactive({
     mutate(rate = n / population * 1e4)
 })
 
-# << plot
+# plot output ----
 output$age_sex <- renderPlotly({
   if (input$y == "count") {
     p <-
@@ -50,18 +52,19 @@ output$age_sex <- renderPlotly({
   ggplotly(p, tooltip = "text") %>%
     plotly::config(displayModeBar = FALSE)
 })
-# >>
+# >> plot output
 
-# << narrative
+
+# narrative output ----
 output$narrative <- renderText({
   input$story
   selected() %>%
     pull(narrative) %>%
     sample(1)
 })
-# <<
+# << narrative
 
-# start introjs when button is pressed
+# start introjs observer ----
 observeEvent(
   input$help,
   introjs(session,
@@ -75,3 +78,4 @@ observeEvent(
     )
   )
 )
+# << start introjs

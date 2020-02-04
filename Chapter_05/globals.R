@@ -1,7 +1,8 @@
+# settings ----
 table_bg_color <- "light-blue"
 dashboard_skin <- "yellow"
 
-## for the tutorial
+# for the tutorial ----
 app_intro <- HTML(glue::glue("
 This app explores data from the 
 <a href='https://www.cpsc.gov/Research--Statistics/NEISS-Injury-Data' 
@@ -13,7 +14,7 @@ in a representative sample of hospitals in the United States.
 app won't take too long to load.)
 "))
 
-## for the graph y-axis tooltip
+# graph y-axis tooltip ----
 units_info <- HTML(glue::glue(
   "The default choice is for the y-axis of the graph to show an estimate of the 
   <em>rate per 10,000</em>,
@@ -23,12 +24,14 @@ units_info <- HTML(glue::glue(
   of the age-groups vary.)"
 ))
 
+# get data sets ----
 if (!exists("injuries")) {
   injuries <- vroom::vroom("neiss/injuries.tsv.gz")
   products <- vroom::vroom("neiss/products.tsv")
   population <- vroom::vroom("neiss/population.tsv")
 }
 
+# count_top helper function ----
 count_top <- function(df, var, n = 5) {
   df %>%
     mutate({{ var }} := fct_lump(fct_infreq({{ var }}), n = n)) %>%
