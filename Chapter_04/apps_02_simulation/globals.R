@@ -1,4 +1,5 @@
-library(mosaic) # brings in ggplot2 as well
+## ordinary R code to make a graph and numerical summary on simulated data
+
 
 histogram <- function(x1, x2, binwidth = 0.1, xlim = c(-3, 3)) {
   df <- data.frame(
@@ -23,18 +24,3 @@ numerical_summary <- function(x1, x2) {
     mosaic::favstats(sample_data ~ sample_number, data = .) %>% 
     select(sample_number, min, mean, max, n)
 }
-
-## use it like this:
-
-random_data_1 <- rnorm(100, mean = 0, sd = 1)
-random_data_2 <- rnorm(100, mean = 0.5, sd = 1)
-
-histogram(
-  x1 = random_data_1,
-  x2 = random_data_2
-)
-
-numerical_summary(
-  x1 = random_data_1,
-  x2 = random_data_2
-)

@@ -1,3 +1,10 @@
+## ADDED FEATURE:
+## use req() to prevent plotting
+## until ther user provides suitable info
+
+## NOTE:  It is still recommended to do this
+## sort of thing with reactives.
+
 library(shiny)
 library(ggplot2)
 
@@ -42,6 +49,7 @@ server <- function(input, output, session) {
   })
   
   output$hist <- renderPlot({
+    req(rv$x1, rv$x2)
     histogram(rv$x1, rv$x2, binwidth = 1, xlim = c(0, 40))
   })
   

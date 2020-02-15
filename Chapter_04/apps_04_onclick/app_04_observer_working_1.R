@@ -1,3 +1,11 @@
+## Observers don't "return values", but they can still
+## do useful work in your app, especially
+## in combination with reactiveValues
+
+## NOTE:  The following can be done with reactives
+## (and reactives are actualy preferred for this
+## type of problem)
+
 library(shiny)
 library(ggplot2)
 
@@ -32,8 +40,8 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   
   rv <- reactiveValues(
-    x1 = NULL,
-    x2 = NULL
+    x1 = rpois(1e4, 3),
+    x2 = rpois(1e4, 3)
   )
   
   observeEvent(input$simulate, {
@@ -42,7 +50,6 @@ server <- function(input, output, session) {
   })
   
   output$hist <- renderPlot({
-    req(rv$x1, rv$x2)
     histogram(rv$x1, rv$x2, binwidth = 1, xlim = c(0, 40))
   })
   

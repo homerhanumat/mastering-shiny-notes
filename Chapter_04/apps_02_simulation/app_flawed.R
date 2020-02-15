@@ -24,21 +24,24 @@ ui <- fluidPage(
     )
   ),
   fluidRow(
-    column(9, plotOutput("hist")),
-    column(3, verbatimTextOutput("ttest"))
+    column(7, plotOutput("hist")),
+    column(5, tableOutput("summary"))
   )
 )
 
 server <- function(input, output, session) {
-  x1 <- reactive(rnorm(input$n1, input$mean1, input$sd1))
-  x2 <- reactive(rnorm(input$n2, input$mean2, input$sd2))
-  
   output$hist <- renderPlot({
-    histogram(x1(), x2(), binwidth = input$binwidth, xlim = input$range)
+    x1 <- rnorm(input$n1, input$mean1, input$sd1)
+    x2 <- rnorm(input$n2, input$mean2, input$sd2)
+    
+    histogram(x1, x2, binwidth = input$binwidth, xlim = input$range)
   })
   
-  output$ttest <- renderText({
-    t_test(x1(), x2())
+  output$summary <- renderTable({
+    x1 <- rnorm(input$n1, input$mean1, input$sd1)
+    x2 <- rnorm(input$n2, input$mean2, input$sd2)
+    
+    numerical_summary(x1, x2)
   })
 }
 
