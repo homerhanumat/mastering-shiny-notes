@@ -25,7 +25,7 @@ ui <- fluidPage(
   ),
   fluidRow(
     column(9, plotOutput("hist")),
-    column(3, verbatimTextOutput("ttest"))
+    column(3, tableOutput("nsum"))
   )
 )
 
@@ -37,11 +37,11 @@ server <- function(input, output, session) {
     histogram(x1, x2, binwidth = input$binwidth, xlim = input$range)
   })
   
-  output$ttest <- renderText({
+  output$nsum <- renderTable({
     x1 <- rnorm(input$n1, input$mean1, input$sd1)
     x2 <- rnorm(input$n2, input$mean2, input$sd2)
     
-    t_test(x1, x2)
+    numerical_summary(x1, x2)
   })
 }
 
