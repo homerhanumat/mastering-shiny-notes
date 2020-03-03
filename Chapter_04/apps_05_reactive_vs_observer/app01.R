@@ -43,7 +43,7 @@ server <- function(input, output, session) {
     rv$a <- data.frame(results = rnorm(1000))
     cat("Completed Task A!\n")
   })
-  observeEvent(input$a, {
+  observeEvent(input$b, {
     cat("Starting Task B ...\n")
     Sys.sleep(10)
     rv$b <-  data.frame(results = rnorm(1000))
