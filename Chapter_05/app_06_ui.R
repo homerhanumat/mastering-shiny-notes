@@ -1,4 +1,4 @@
-## Construct UI
+## Construct UI ----
 
 # dashboard header ----
 
@@ -9,7 +9,7 @@ header <- dashboardHeader(
 # dashborad sidebar ----
 
 sidebar <- dashboardSidebar(
-  ## inject hlper javascript ----
+  ## inject helper javascript ----
   useShinyjs(),
   introjsUI(),
   use_tippy(),

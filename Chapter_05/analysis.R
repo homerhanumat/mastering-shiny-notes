@@ -1,5 +1,4 @@
 library(vroom)
-library(tidyverse)
 
 ## first, set working directory to this file location
 
@@ -11,6 +10,8 @@ products
 
 population <- vroom::vroom("neiss/population.tsv")
 population
+
+library(tidyverse)
 
 selected <- injuries %>% filter(prod_code == 1842)
 
