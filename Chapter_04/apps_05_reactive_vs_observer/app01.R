@@ -12,11 +12,14 @@ ui <- pageWithSidebar(
   headerPanel("With Observers and Reactive Values"),
   sidebarPanel(
     helpText(
-      "Press both buttons quickly in succession.  You'll experience a
-      12-second wait to see new results in the active panel."
+      "Press both buttons quickly in succession,",
+      " strting with the button for the task in the INACTIVE panel.",
+      " You'll experience about a 10-second wait to see new",
+      " results in the active panel. (But then switch panels: ",
+      "you will see the new results right away!)"
     ),
-    actionButton("a", "Task A (2 sec)"),
-    actionButton("b", "Task B (10 sec)")
+    actionButton("a", "Task A (5 sec)"),
+    actionButton("b", "Task B (5 sec)")
   ),
   mainPanel(
     tabsetPanel(
@@ -39,13 +42,13 @@ server <- function(input, output, session) {
   )
   observeEvent(input$a, {
     cat("Starting Task A ...\n")
-    Sys.sleep(2)
+    Sys.sleep(5)
     rv$a <- data.frame(results = rnorm(1000))
     cat("Completed Task A!\n")
   })
   observeEvent(input$b, {
     cat("Starting Task B ...\n")
-    Sys.sleep(10)
+    Sys.sleep(5)
     rv$b <-  data.frame(results = rnorm(1000))
     cat("Completed Task B!\n")
   })
@@ -53,13 +56,13 @@ server <- function(input, output, session) {
     req(rv$a)
     ggplot(rv$a, aes(x = results)) +
       geom_histogram(fill = "skyblue", color = "black") +
-      labs(title = paste0("This took 2 seconds to produce."))
+      labs(title = paste0("This took 5 seconds to produce."))
   })
   output$b_results <- renderPlot({
     req(rv$b)
     ggplot(rv$b, aes(x = results)) +
       geom_histogram(fill = "burlywood", color = "black") +
-      labs(title = paste0("This took 10 seconds to produce."))
+      labs(title = paste0("This took 5 seconds to produce."))
   })
 }
 

@@ -11,11 +11,14 @@ ui <- pageWithSidebar(
   headerPanel("With Reactives"),
   sidebarPanel(
     helpText(
-      "Press both buttons quickly in succession.  Your wait should be only
-      the time for the task in the active panel."
+      "Press both buttons quickly in succession,",
+      " strting with the button for the task in the INACTIVE panel.",
+      " You'll experience only about a 5-second wait to see new",
+      " results in the active panel. (But then switch panels, and",
+      " experience another 5-second wait!)"
     ),
-    actionButton("a", "Task A (2 sec)"),
-    actionButton("b", "Task B (10 sec)")
+    actionButton("a", "Task A (5 sec)"),
+    actionButton("b", "Task B (5 sec)")
   ),
   mainPanel(
     tabsetPanel(
@@ -33,22 +36,22 @@ ui <- pageWithSidebar(
 
 server <- function(input, output, session) {
   a <- eventReactive(input$a, {
-    Sys.sleep(2)
+    Sys.sleep(5)
     data.frame(results = rnorm(1000))
   })
   b <- eventReactive(input$b, {
-    Sys.sleep(10)
+    Sys.sleep(5)
     data.frame(results = rnorm(1000))
   })
   output$a_results <- renderPlot({
     ggplot(a(), aes(x = results)) +
       geom_histogram(fill = "skyblue", color = "black") +
-      labs(title = paste0("This took 2 seconds to produce."))
+      labs(title = paste0("This took 5 seconds to produce."))
   })
   output$b_results <- renderPlot({
     ggplot(b(), aes(x = results)) +
       geom_histogram(fill = "burlywood", color = "black") +
-      labs(title = paste0("This took 10 seconds to produce."))
+      labs(title = paste0("This took 5 seconds to produce."))
   })
 }
 
