@@ -8,7 +8,7 @@ library(glue)
 ## sidebar panel ----
 sidebar <- sidebarPanel(
     numericInput("n", "Countdown from:", min = 1, step = 1, value = 5),
-    actionButton("count", "Count Down!")
+    actionButton("countdown", "Count Down!")
 )
 
 ## main panel ----
@@ -37,14 +37,14 @@ server <- function(input, output, session) {
     current = NULL
   )
 
-  observeEvent(input$count, {
+  observeEvent(input$countdown, {
     rv$current <- input$n
   })
   
   observe({
     timer()
-    isolate(req(rv$current))
     isolate({
+      req(rv$current)
       rv$current <- rv$current - 1
     })
   })

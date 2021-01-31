@@ -24,3 +24,11 @@ numerical_summary <- function(x1, x2) {
     mosaic::favstats(sample_data ~ sample_number, data = .) %>% 
     select(sample_number, min, mean, max, n)
 }
+
+## sample of use:
+
+# library(ggplot2)
+# data_1 <- rnorm(100, mean = 10, sd = 1)
+# data_2 <- rnorm(100, mean = 20, sd = 1)
+# histogram(x1 = data_1, x2 = data_2, xlim = c(5, 25))
+# numerical_summary(x1 = data_1, x2 = data_2)

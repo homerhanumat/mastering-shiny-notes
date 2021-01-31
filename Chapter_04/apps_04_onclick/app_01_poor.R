@@ -1,3 +1,13 @@
+##################################################
+## 
+## attempt to compare two poisson distributions
+## each with its own lambda parameter
+##
+## problem:  it makes new plots before you push the
+## simulate button!
+##
+##################################################
+
 library(shiny)
 library(ggplot2)
 

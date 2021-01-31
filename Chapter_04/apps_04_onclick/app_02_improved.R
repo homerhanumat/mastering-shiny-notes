@@ -1,3 +1,13 @@
+##################################################
+## 
+## compare two poisson distributions
+## each with its own lambda parameter
+##
+## fix the issue by using eventReactive()
+## to establish correct chain of reactive dependencies
+##
+##################################################
+
 library(shiny)
 library(ggplot2)
 
