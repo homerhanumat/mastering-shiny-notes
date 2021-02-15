@@ -3,5 +3,6 @@
 .RData
 .Ruserdata
 student_work/*
+!student_work/.gitkeep
 .DS_Store
 *rsconnect
