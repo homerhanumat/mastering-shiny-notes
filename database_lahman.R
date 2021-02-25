@@ -1,5 +1,5 @@
 ## This shiny app pulls from the mdsr public database
-## the pool package manages connections ot the database
+## the pool package manages connections to the database
 ## when there are multiple users of the app
 ## see:  https://db.rstudio.com/
 ## especially the sections on DBI and pool

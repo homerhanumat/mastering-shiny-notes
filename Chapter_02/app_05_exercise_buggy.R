@@ -1,20 +1,35 @@
+library(shiny)
 library(ggplot2)
-datasets <- data(package = "ggplot2")$results[, "Item"]
+
+set.seed(4040)
+variables <- list(
+  normal = rnorm(100, mean = 70, sd = 3),
+  right = rexp(100, rate = 1/70),
+  left = 100 - rexp(100, rate = 1/30)
+)
 
 ui <- fluidPage(
-  selectInput("dataset", "Dataset", choices = datasets),
+  selectInput("dist", "Distribution", choices = names(variables)),
   verbatimTextOutput("summary"),
   tableOutput("plot")
 )
 
 server <- function(input, output, session) {
-  dataset <- reactive({
-    get(input$dataset, "package:ggplot2")
+  variable <- reactive({
+    variables[[input$dist]]
   })
-  output$summmry <- renderPrint({
-    summary(dataset())
+  output$smmary <- renderPrint({
+    results <- fivenum(variable())
+    names(results) <- c("min", "Q1", "median", "Q3", "max")
+    results
   })
   output$plot <- renderPlot({
-    plot(dataset)
+    df <- data.frame(x = variable)
+    ggplot(df, aes(x = x)) +
+      geom_density(fill = "burlywood") +
+      geom_rug()
   })
 }
+
+shinyApp(ui, server)
+
