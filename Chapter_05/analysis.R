@@ -13,6 +13,7 @@ population
 
 library(tidyverse)
 
+products %>% filter(prod_code == 1842)
 selected <- injuries %>% filter(prod_code == 1842)
 
 selected %>% count(diag, wt = weight, sort = TRUE)

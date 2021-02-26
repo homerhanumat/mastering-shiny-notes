@@ -2,7 +2,7 @@
 ## Stage 1
 ##
 ## Initial version of app
-## "regular R" analysis code is extractd 
+## "regular R" analysis code is extracted 
 ## into the server logic
 ##
 
@@ -21,7 +21,9 @@ population <- vroom::vroom("neiss/population.tsv")
 ui <- fluidPage(
   fluidRow(
     column(6,
-           selectInput("code", "Product", setNames(products$prod_code, products$title))
+           selectInput("code", "Product", 
+                       setNames(products$prod_code, 
+                                products$title))
     )
   ),
   fluidRow(
