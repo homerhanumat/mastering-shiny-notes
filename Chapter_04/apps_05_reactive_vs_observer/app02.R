@@ -12,7 +12,7 @@ ui <- pageWithSidebar(
   sidebarPanel(
     helpText(
       "Press both buttons quickly in succession,",
-      " strting with the button for the task in the INACTIVE panel.",
+      " starting with the button for the task in the INACTIVE panel.",
       " You'll experience only about a 5-second wait to see new",
       " results in the active panel. (But then switch panels, and",
       " experience another 5-second wait!)"

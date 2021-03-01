@@ -42,6 +42,7 @@ server <- function(input, output, session) {
   
   x1 <- reactive({
     input$simulate
+    print(input$simulate)
     isolate({
       rpois(input$n, input$lambda1)
     })
