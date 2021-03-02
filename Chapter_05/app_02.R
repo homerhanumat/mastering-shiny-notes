@@ -19,7 +19,7 @@ if (!exists("injuries")) {
 }
 
 ## All categories outside the top five are lumped together
-## See Hadley's text for a less magincal way to accomplish
+## See Hadley's text for a less magical way to accomplish
 ## this feat.
 count_top <- function(df, var, n = 5) {
   df %>%
