@@ -15,14 +15,17 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
+  
   variable <- reactive({
     variables[[input$dist]]
   })
+  
   output$smmary <- renderPrint({
     results <- fivenum(variable())
     names(results) <- c("min", "Q1", "median", "Q3", "max")
     results
   })
+  
   output$plot <- renderPlot({
     df <- data.frame(x = variable)
     ggplot(df, aes(x = x)) +
