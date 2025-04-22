@@ -1,8 +1,13 @@
+## This app greets the user by name, but responds too "quickly"
+
 library(shiny)
 library(stringr)
 
 ui <- fluidPage(
-  textInput("name", "What's your name?"),
+  textInput(
+    inputId = "name", 
+    label = "What's your name?"
+  ),
   textOutput("greeting")
 )
 

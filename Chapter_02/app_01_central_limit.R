@@ -1,3 +1,7 @@
+## this shiny app illustrates a sidebar layout:
+## the inputs go in a sidebar,
+## and the outputs go into a main panel
+
 library(shiny)
 library(ggplot2)
 
