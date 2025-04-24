@@ -1,7 +1,5 @@
-## this app creates the list of colors as a reactive
-## dependent on an action buttonm 
-## then consults the reactive to make the painting and
-## the report
+## this app shows illustrates the use of
+## req() and isolate() to control reactivity
 
 library(shiny)
 library(TurtleGraphics)
@@ -53,8 +51,14 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   
-  colors_to_use <- eventReactive(input$paint, {
-    sample(colors(), size = input$strokes, replace = TRUE)
+  colors_to_use <- reactive({
+    ## req() below makes it so that input$paint
+    ## has to be "truthy" for the reactive to run
+    req(input$paint)
+    ## isolate() in the code below makes it so that
+    ## a change in input$strokes won't cause this reactive
+    ## to be re-run:
+    sample(colors(), size = isolate(input$strokes), replace = TRUE)
   })
   
   output$painting <- renderPlot({
