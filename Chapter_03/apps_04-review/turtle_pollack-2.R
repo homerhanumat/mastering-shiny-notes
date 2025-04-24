@@ -1,5 +1,5 @@
-## This app uses isolate() to eliminate
-## reaxctivity of the graph to input$lwd.
+## The fix:  use isolate() to eliminate
+## reactivity of the graph to input$lwd.
 
 library(shiny)
 library(TurtleGraphics)
